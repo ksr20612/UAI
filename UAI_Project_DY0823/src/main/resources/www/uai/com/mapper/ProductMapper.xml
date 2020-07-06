@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="www.uai.com.mapper.ProductMapper">
+
+	<select id="getProductListCount" resultType="int">
+		<![CDATA[
+		SELECT COUNT(*) FROM PRODUCT
+		]]>	
+			<if test="p_type != null">
+				<if test="p_location != null">
+					<if test="searchWord != null">
+						WHERE P_TYPE = #{p_type} AND P_LOCATION = #{p_location} AND 
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%')
+					</if>
+					<if test="searchWord == null">
+						WHERE P_TYPE = #{p_type} AND P_LOCATION = #{p_location}
+					</if>
+				</if>
+				<if test="p_location == null">
+					<if test="searchWord != null">
+						WHERE P_TYPE = #{p_type} AND
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%')
+					</if>
+					<if test="searchWord == null">
+						WHERE P_TYPE = #{p_type}
+					</if>
+				</if>
+			</if>
+			<if test="p_type == null">
+				<if test="p_location != null">
+					<if test="searchWord != null">
+						WHERE P_LOCATION = #{p_location} AND 
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%')
+					</if>
+					<if test="searchWord == null">
+						WHERE P_LOCATION = #{p_location}
+					</if>
+				</if>
+				<if test="p_location == null"></if>
+					<if test="searchWord != null">
+						WHERE P_TYPE = #{p_type} AND
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%')
+					</if>
+			</if>	
+	</select>
+	
+	<select id="selectProductList" resultType="www.uai.com.vo.ProductVO" >
+		<![CDATA[
+		SELECT bd2.* FROM (SELECT bd.*, ROWNUM AS rnum FROM (SELECT * FROM PRODUCT 
+		]]>	
+			<if test="p_type != null">
+				<if test="p_location != null">
+					<if test="searchWord != null">
+						WHERE P_TYPE = #{p_type} AND P_LOCATION = #{p_location} AND 
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%') ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+					<if test="searchWord == null">
+						WHERE P_TYPE = #{p_type} AND P_LOCATION = #{p_location} ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+				</if>
+				<if test="p_location == null">
+					<if test="searchWord != null">
+						WHERE P_TYPE = #{p_type} AND
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%') ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+					<if test="searchWord == null">
+						WHERE P_TYPE = #{p_type} ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+				</if>
+			</if>
+			<if test="p_type == null">
+				<if test="p_location != null">
+					<if test="searchWord != null">
+						WHERE P_LOCATION = #{p_location} AND 
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%') ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+					<if test="searchWord == null">
+						WHERE P_LOCATION = #{p_location} ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+				</if>
+				<if test="p_location == null"></if>
+					<if test="searchWord != null">
+						WHERE P_TYPE = #{p_type} AND
+						(P_NAME LIKE '%'||#{searchWord}||'%' OR P_TEACHER LIKE '%'||#{searchWord}||'%'
+						OR P_LECTUREINFO LIKE '%'||#{searchWord}||'%' OR P_TEACHERINFO LIKE '%'||#{searchWord}||'%'
+						OR P_OTHERINFO '%'||#{searchWord}||'%') ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+					<if test="searchWord == null">
+						ORDER BY P_IDX DESC) bd) bd2 WHERE rnum BETWEEN #{startPostNum} AND #{endPostNum}
+					</if>
+			</if>	
+	</select>
+
+</mapper>
