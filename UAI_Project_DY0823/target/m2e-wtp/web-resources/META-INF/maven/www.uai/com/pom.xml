@@ -68,7 +68,7 @@
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
-		    <version>20180813</version>
+		    <version>20231013</version>
 		</dependency>
 		
 		<!-- 검색 용도로 XML 사용하는 라이브러리 (by dongyeon 0823 ) -->
